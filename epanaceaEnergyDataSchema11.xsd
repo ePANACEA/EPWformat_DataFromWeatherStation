@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- Weather data file format for energy building assesment -->
+<!-- Simple data -->
+<xs:simpleType name="stringtypeYesNo"><xs:restriction base="xs:string"><xs:pattern value="Yes|No"/></xs:restriction></xs:simpleType>
+<xs:simpleType name="fuelName">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="wood"/> 
+		<xs:pattern value="charcoal"/>
+		<xs:pattern value="coal"/>		
+		<xs:pattern value="hexamineFuelTablets"/>
+		<xs:pattern value="woodPellets"/> 
+		<xs:pattern value="hydrogenFuel"/>
+		<xs:pattern value="biodiesel"/>
+		<xs:pattern value="diesel"/>
+		<xs:pattern value="gasoline"/>
+		<xs:pattern value="kerosene"/>
+		<xs:pattern value="methane"/>
+		<xs:pattern value="propane"/>
+		<xs:pattern value="butane"/>
+		<xs:pattern value="biomass"/>
+		<xs:pattern value="naturalGas"/>
+		<xs:pattern value="hidrogen"/>
+	</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="supplyUnits">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="kWh"/> 
+		<xs:pattern value="MWh"/>
+		<xs:pattern value="J"/>		
+		<xs:pattern value="kJ"/>
+		<xs:pattern value="kg"/> 
+		<xs:pattern value="Ton"/>
+		<xs:pattern value="liter"/>
+		<xs:pattern value="m3"/>
+	</xs:restriction>
+</xs:simpleType>	   
+
+
+<!--General structure -->
+<xs:element name="EnergyData">
+<xs:complexType >
+	<xs:sequence>
+		<xs:element name="Location"  type="LocationType" minOccurs = "1" maxOccurs="1"/>
+   		<xs:sequence>
+   			<xs:element name="Data"  type="DataType" minOccurs="1" maxOccurs="unbounded" />
+ 		</xs:sequence>	
+  	</xs:sequence>	
+</xs:complexType>
+</xs:element>
+
+<!-- Complex data -->
+<xs:complexType name= "LocationType">
+  <xs:all>
+    <xs:element name="UniqueSupplyCode" type="xs:string" minOccurs = "1"/>
+    <xs:element name="Street" type="xs:string" minOccurs = "0"/>
+    <xs:element name="City" type="xs:string" minOccurs = "0"/>
+    <xs:element name="StateProv" type="xs:string" minOccurs = "0"/>
+    <xs:element name="Country" type="xs:string" minOccurs = "0"/>
+    <xs:element name="Fuel" type="fuelName" minOccurs = "1"/>
+    <xs:element name="Unit" type="supplyUnits" minOccurs = "1"/>
+    
+    </xs:all>
+</xs:complexType>
+
+<xs:complexType name= "DataType"> 
+  
+  <xs:all>
+    <xs:element name="Time">
+   	<xs:complexType>
+    	<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:sequence>    
+	    		<xs:element name="Year" type="xs:integer" minOccurs = "0"/>
+	    		<xs:element name="Month" type="xs:integer" minOccurs = "0"/>
+	    		<xs:element name="Day" type="xs:integer" minOccurs = "0"/>
+	    		<xs:element name="Hour" type="xs:integer" minOccurs = "0"/>
+	    		<xs:element name="SolarHour" type="xs:integer" minOccurs = "0"/>
+	    		<xs:element name="Minute" type="xs:integer" minOccurs = "0"/>
+	    		<xs:element name="Second" type="xs:integer" minOccurs = "0"/>	   
+	    		<xs:element name="Period" type="xs:integer" minOccurs = "0"/> 	
+	    	</xs:sequence>
+    	</xs:choice>
+    </xs:complexType>
+	</xs:element>
+    <xs:element name="EnergyValue" type="ValueType" minOccurs = "1"/>
+    <xs:element name="PowerValue" type="ValueType" minOccurs = "0"/>
+  </xs:all>
+</xs:complexType>
+ 
+<xs:complexType name= "ValueType">
+  <xs:all>
+    <xs:element name="Mean" type="xs:float" minOccurs = "0"/>
+    <xs:element name="Min" type="xs:float" minOccurs = "0"/>
+    <xs:element name="Max" type="xs:float" minOccurs = "0"/>
+    <xs:element name="Accumulated" type="xs:float" minOccurs = "0"/>
+    </xs:all>
+</xs:complexType>
+ 
+
+
+
+
+
+
+
+</xs:schema>

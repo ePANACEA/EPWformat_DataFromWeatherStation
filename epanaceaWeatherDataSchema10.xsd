@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- Weather data file format for energy building assesment -->
+<!-- Simple data -->
+<xs:simpleType name="stringtypeYesNo"><xs:restriction base="xs:string"><xs:pattern value="Yes|No"/></xs:restriction></xs:simpleType>
+<xs:simpleType name="variableName">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="exthorzrad"/> <!-- Extraterrestrial Horizontal Radiation -->
+		<xs:pattern value="extdirrad"/>  <!-- Extraterrestrial Direct Normal Radiation -->
+		<xs:pattern value="horirsky"/>  <!-- horizontal_infrared_radiation_intensity from sky -->		
+		<xs:pattern value="glohorrad"/>  <!-- Global Horizontal Radiation  -->
+		<xs:pattern value="dirnorrad"/>  <!-- Direct Normal Radiation -->
+		<xs:pattern value="difhorzrad"/>  <!-- Diffuse Horizontal Radiation -->
+		<xs:pattern value="totskycvr"/>  <!-- Total Sky Cover -->
+		<xs:pattern value="opaqskycvr"/>  <!-- Opaque_Sky_Cover -->
+		<xs:pattern value="drybulb"/>  <!-- Dry Bulb Temperature -->
+		<xs:pattern value="dewpoint"/>  <!-- Dew Point Temperature -->
+		<xs:pattern value="relhum"/>  <!-- Relative_Humidity -->
+		<xs:pattern value="atmospressure"/>  <!-- Atmospheric_Pressure -->
+		<xs:pattern value="winddir"/>  <!-- Wind_Direction -->
+		<xs:pattern value="windspd"/>  <!-- Wind_Speed -->
+		<xs:pattern value="windspd10m"/>  <!-- Wind_Speed @10meter -->
+		<xs:pattern value="visibility"/>  <!-- Horizontal Visibility -->
+		<xs:pattern value="ceilinghgt"/>  <!-- Ceiling Height -->
+		<xs:pattern value="presweathcodes"/>  <!-- Present_weather -->
+		<xs:pattern value="presweathobs"/>  <!-- Observation Indicator -->
+		<xs:pattern value="precipwtr"/>  <!-- Precipitable Water -->
+		<xs:pattern value="aerosoloptdepth"/>  <!-- Broadband Aerosol  -->
+		<xs:pattern value="snowdepth"/>  <!-- Snow Depth  -->
+		<xs:pattern value="dayslastsnow"/>  <!-- Days since last Snowfall -->
+		<xs:pattern value="rain"/>  <!-- Liquid Precipitation Depth -->
+		<xs:pattern value="wetbulb"/>  <!-- wet_bulb_temperature -->
+		<xs:pattern value="humratio"/>  <!-- humidity_ratio -->
+		<xs:pattern value="dirhorrad"/>  <!-- direct_horizontal_radiation -->
+		<xs:pattern value="sunshineduration"/>  <!-- direct_horizontal_radiation -->
+	</xs:restriction>
+</xs:simpleType>
+	   
+
+
+<!--General structure -->
+<xs:element name="WeatherData">
+<xs:complexType >
+	<xs:sequence>
+		<xs:element name="Location"  type="LocationType" minOccurs = "1" />
+    		<xs:sequence>
+    			<xs:element name="Data"  type="DataType" minOccurs="1" maxOccurs="unbounded" />
+  			</xs:sequence>	
+  	</xs:sequence>	
+</xs:complexType>
+</xs:element>
+
+<!-- Complex data -->
+<xs:complexType name= "LocationType">
+  <xs:all>
+    <xs:element name="City" type="xs:string" minOccurs = "1"/>
+    <xs:element name="StateProv" type="xs:string" minOccurs = "0"/>
+    <xs:element name="Country" type="xs:string" minOccurs = "0"/>
+    <xs:element name="InLat" type="xs:float" minOccurs = "1"/>
+    <xs:element name="InLong" type="xs:float" minOccurs = "1"/>
+    <xs:element name="InTime" type="xs:float" minOccurs = "1"/>
+    <xs:element name="InElev" type="xs:float" minOccurs = "1"/>
+    <xs:element name="InWMO" type="xs:integer" minOccurs = "0"/>
+    
+    </xs:all>
+</xs:complexType>
+
+<xs:complexType name= "DataType">
+  <xs:all>
+    <xs:element name="Variable" type="variableName"/>
+    <xs:element name="Time">
+    	<xs:complexType>
+	    	<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:sequence>    
+		    		<xs:element name="Year" type="xs:integer" minOccurs = "0"/>
+		    		<xs:element name="Month" type="xs:integer" minOccurs = "0"/>
+		    		<xs:element name="Day" type="xs:integer" minOccurs = "0"/>
+		    		<xs:element name="Hour" type="xs:integer" minOccurs = "0"/>
+		    		<xs:element name="SolarHour" type="xs:integer" minOccurs = "0"/>
+		    		<xs:element name="Minute" type="xs:integer" minOccurs = "0"/>
+		    		<xs:element name="Second" type="xs:integer" minOccurs = "0"/>	    	
+		    	</xs:sequence>
+	    	</xs:choice>
+	    </xs:complexType>
+	</xs:element>
+    <xs:element name="Value" type="ValueType" minOccurs = "1"/>
+  </xs:all>
+ </xs:complexType>
+ 
+<xs:complexType name= "ValueType">
+  <xs:all>
+    <xs:element name="Mean" type="xs:float" minOccurs = "0"/>
+    <xs:element name="Min" type="xs:float" minOccurs = "0"/>
+    <xs:element name="Max" type="xs:float" minOccurs = "0"/>
+    <xs:element name="Accumulated" type="xs:float" minOccurs = "0"/>
+    </xs:all>
+</xs:complexType>
+ 
+
+
+
+
+
+
+
+</xs:schema>
